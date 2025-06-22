@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <title>Thermal Hotspots to OziExplorer WPT</title>
 </head>
-<body>
+<body style="font-family:verdana">
   <h1>Thermal Hotspots to OziExplorer WPT</h1>
-  This utility will take a GPS coordinate and use <a href="https://thermal.kk7.ch/#46.194,13.639,12"">Paragliding Thermal Maps</a>
+  This utility will take a GPS coordinate and use <a href="https://thermal.kk7.ch/#46.194,13.639,12"">Paragliding Thermal Maps</a><br/>
   to find the thermal hotspots in a square area around that coordinate.<br/>
   You can generate a (OziExplorer) WPT file as waypoints and send it to<br/>
-  a navigation app such as FlySkyHy.<br/>
+  a navigation app such as FlySkyHy.<br/><br/>
   <table>
   <tr><td><label>Center Coordinate (lat, lon):</td><td><input id="centerCoord" type="text" value="(46.5092063, 8.0680800)"></label></td></tr>
   <tr><td><label>Radius (km):</td><td><input id="radiusKm" type="number" value="50"></label></td></tr>
   <tr><td><label>Amount of hotspots:</td><td><input id="limit" type="number" value="1000"></label></td></tr>
   </table>
-  <button onclick="generateWpt()">Generate WPT file</button>
+  <button onclick="generateWpt()" style="font-size: 1.5em; padding: 20px 40px;">Generate WPT file</button>
 
   <script>
     function degToRad(degrees) {
