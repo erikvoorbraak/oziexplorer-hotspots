@@ -8,7 +8,9 @@
   <h1>Thermal Hotspots to OziExplorer WPT</h1>
 
   <label>Center Coordinate (lat, lon): <input id="centerCoord" type="text" value="(46.5092063, 8.0680800)"></label><br>
-  <label>Radius (km): <input id="radiusKm" type="number" value="50"></label><br><br>
+  <label>Radius (km): <input id="radiusKm" type="number" value="50"></label><br>
+  <label>Amount of hotspots: <input id="limit" type="number" value="1000"></label><br>
+  <br>
   <button onclick="generateWpt()">Generate WPT file</button>
 
   <script>
@@ -63,10 +65,11 @@
         const coordInput = document.getElementById("centerCoord").value;
         const { lat: centerLat, lon: centerLon } = parseCoordinate(coordInput);
         const radiusKm = parseFloat(document.getElementById("radiusKm").value) || 50;
+        const limit = parseFloat(document.getElementById("limit").value) || 1000;
     
         const bbox = computeBoundingBox(centerLat, centerLon, radiusKm);
     
-        const url = `https://thermal.kk7.ch/api/hotspots/geojson/all_all/${bbox.southLat},${bbox.westLon},${bbox.northLat},${bbox.eastLon}?limit=500`;
+        const url = `https://thermal.kk7.ch/api/hotspots/geojson/all_all/${bbox.southLat},${bbox.westLon},${bbox.northLat},${bbox.eastLon}?limit=${limit}`;
     
         const response = await fetch(url);
         if (!response.ok) throw new Error("HTTP error " + response.status);
