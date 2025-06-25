@@ -33,22 +33,6 @@
       };
     }
 
-    async function shareFile(filename, content) {
-      const file = new File([content], filename, { type: 'text/plain' });
-    
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        try {
-          await navigator.share({
-            title: filename,
-            files: [file]
-          });
-        } catch (err) {
-          alert("Sharing failed: " + err);
-        }
-      } else {
-        alert("Web Share not supported on this device.");
-      }
-    }
     function parseCoordinate(input) {
       // remove parentheses, spaces, etc.
       input = input.replace(/[()]/g, '').trim();
@@ -89,14 +73,17 @@
         for (let i = 0; i < features.length; i++) {
           const feature = features[i];
           const coords = feature.geometry.coordinates;
+          const prob = feature.properties.probability;
+          const radius = Math.round(150 * prob);
           const lon = coords[0];
           const lat = coords[1];
           const name = `HS${String(i+1).padStart(2,'0')}`;
-          wpt += `${i+1},${name},${lat.toFixed(7)},${lon.toFixed(7)},,0,1,3,0,65535,${name},0,0,100,0,6,0,17\n`;
+          wpt += `${i+1},${name},${lat.toFixed(7)},${lon.toFixed(7)},,0,1,3,0,65535,${name},0,0,${radius},0,6,0,17\n`;
         }
     
+	    downloadFile("hotspots.wpt", wpt);
         // Use Web Share API
-        await shareFile("hotspots.wpt", wpt);
+        //await shareFile("hotspots.wpt", wpt);
     
       } catch (err) {
         alert("Error: " + err);
@@ -109,6 +96,23 @@
       link.href = URL.createObjectURL(blob);
       link.download = filename;
       link.click();
+    }
+	
+    async function shareFile(filename, content) {
+      const file = new File([content], filename, { type: 'text/plain' });
+    
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            title: filename,
+            files: [file]
+          });
+        } catch (err) {
+          alert("Sharing failed: " + err);
+        }
+      } else {
+        alert("Web Share not supported on this device.");
+      }
     }
   </script>
 </body>
